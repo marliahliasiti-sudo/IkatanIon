@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bond Quest: Petualangan di Kepulauan Valensi</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@400;700&display=swap">
+<style>
+:root{--bg:#e6f3f2;--card:#fff;--ink:#12303a;--mute:#4f6b73;--line:#b9d3d3;--sea:#117a8b;--ion:#c98a00;--cov:#0e8f6e;--bad:#c0392b;--good:#1c8a4a;--chip:#d3e8e7;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1c26;--card:#12303a;--ink:#e6f3f2;--mute:#9bbcc2;--line:#27505c;--sea:#4cc3d6;--ion:#f2b632;--cov:#4fd1a5;--bad:#ff7b6b;--good:#5fd68b;--chip:#1b4452}}
+:root[data-theme="dark"]{--bg:#0b1c26;--card:#12303a;--ink:#e6f3f2;--mute:#9bbcc2;--line:#27505c;--sea:#4cc3d6;--ion:#f2b632;--cov:#4fd1a5;--bad:#ff7b6b;--good:#5fd68b;--chip:#1b4452}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Nunito,system-ui,sans-serif;min-height:100%}
+h1,h2,h3{font-family:Fredoka,"Trebuchet MS",sans-serif;margin:0 0 .4em;line-height:1.2}
+main{max-width:760px;margin:0 auto;padding:16px}
+.top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.logo{font:700 1.3rem Fredoka,sans-serif}
+.logo b{color:var(--ion)}
+.chip{background:var(--chip);border-radius:99px;padding:2px 12px;font-weight:700;font-size:.9rem;margin-left:6px;white-space:nowrap}
+.map{display:flex;gap:6px;align-items:stretch;margin-bottom:14px}
+.node{flex:1;min-width:0;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 6px;text-align:center;font-size:.78rem;line-height:1.25}
+.node span{display:block;font-size:1.4rem}
+.node.cur{border-color:var(--sea);box-shadow:0 0 0 3px color-mix(in srgb,var(--sea) 30%,transparent)}
+.node.pass{border-color:var(--good)}.node.skip{border-color:var(--ion)}.node.lock{opacity:.5}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:12px}
+.q{font-weight:700;font-size:1.05rem;margin:.2em 0 .8em}
+.tag{display:inline-block;background:var(--ion);color:#1a1200;border-radius:6px;padding:0 8px;font-weight:700;font-size:.8rem;margin-bottom:6px}
+button,select,textarea{font:inherit;color:inherit}
+.btn{background:var(--sea);color:#04222a;border:0;border-radius:12px;padding:10px 18px;font-weight:700;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible,.opt:focus-visible,.it:focus-visible,select:focus-visible{outline:3px solid var(--ion);outline-offset:2px}
+.opt{display:block;width:100%;text-align:left;background:transparent;border:2px solid var(--line);border-radius:12px;padding:9px 12px;margin-bottom:8px;cursor:pointer}
+.opt.on{border-color:var(--sea);background:color-mix(in srgb,var(--sea) 18%,transparent)}
+.locked{pointer-events:none}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.row>span{flex:1 1 220px}
+.tfb{width:44px;padding:6px 0;border:2px solid var(--line);background:transparent;border-radius:10px;font-weight:700;cursor:pointer}
+.tfb.on{background:var(--sea);border-color:var(--sea);color:#04222a}
+.pool,.bk{display:flex;flex-wrap:wrap;gap:8px;min-height:44px}
+.pool{padding:8px;border:2px dashed var(--line);border-radius:12px;margin-bottom:10px}
+.it{background:var(--chip);border:2px solid transparent;border-radius:10px;padding:6px 12px;font-weight:700;cursor:grab}
+.it.sel{border-color:var(--ion)}
+.bks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.bkt{border:2px solid var(--line);border-radius:12px;padding:8px;min-height:84px;cursor:pointer}
+.bkt h3{font-size:.95rem;color:var(--mute)}
+select{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:6px;max-width:100%}
+.fb{border-left:6px solid var(--good);background:color-mix(in srgb,var(--good) 14%,transparent);padding:10px 14px;border-radius:8px;margin-top:12px}
+.fb.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.fb.mid{border-color:var(--ion);background:color-mix(in srgb,var(--ion) 16%,transparent)}
+.hint{color:var(--mute);font-style:italic;margin-top:8px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+input[type=text],textarea{width:100%;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:8px}
+textarea{min-height:64px}
+.key{background:var(--chip);border-radius:10px;padding:8px 12px;margin-top:6px;font-size:.93rem}
+details{margin-top:10px}summary{cursor:pointer;font-weight:700}
+.big{font:700 2.2rem Fredoka,sans-serif;color:var(--ion)}
+.small{font-size:.88rem;color:var(--mute)}
+@media (max-width:480px){.node{font-size:.68rem}.node span{font-size:1.1rem}}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><div class="logo">Bond <b>Quest</b></div><div id="hud"></div></div>
+<div class="map" id="map"></div>
+<div id="stage"></div>
+</main>
+<script>
+const Z=[
+{n:'Lembah Valensi',ic:'🏝️',bd:'Penjaga Oktet',mq:'Menentukan elektron valensi dan memprediksi apakah atom cenderung melepas atau menerima elektron.',q:[
+{t:'mc',q:'Atom ₁₇Cl akan mencapai kestabilan dengan cara …',o:['melepas 7 elektron','menerima 1 elektron','melepas 1 elektron','menerima 7 elektron','tidak melepas maupun menerima elektron'],a:1,x:'Konfigurasi Cl adalah 2 8 7, jadi kurang 1 elektron untuk oktet.',h:'Tulis konfigurasi elektronnya dulu.'},
+{t:'mc',q:'Pasangan unsur yang paling mungkin membentuk ikatan ion adalah …',o:['₁₁Na dan ₁₇Cl','₆C dan ₈O','₁H dan ₁₇Cl','₇N dan ₁H','₁₆S dan ₈O'],a:0,x:'Logam golongan IA bertemu nonlogam golongan VIIA: serah terima elektron.',h:'Ikatan ion terjadi antara logam dan nonlogam.'},
+{t:'multi',q:'Pilih SEMUA unsur yang cenderung melepas elektron saat berikatan.',o:['₁₁Na','₁₂Mg','₁₇Cl','₈O','₁₃Al','₁₀Ne'],a:[0,1,4],x:'Logam melepas elektron. Ne sudah stabil, Cl dan O menerima elektron.',h:'Ada tiga jawaban benar.'}]},
+{n:'Kota Kristal Ion',ic:'🏙️',bd:'Arsitek Ion',mq:'Menjelaskan pembentukan ikatan ion, menuliskan rumus senyawa ion, dan mengenali sifatnya.',q:[
+{t:'mc',q:'Senyawa yang terbentuk dari Mg (golongan IIA) dan Cl (golongan VIIA) berumus …',o:['MgCl','MgCl₂','Mg₂Cl','Mg₂Cl₃','MgCl₃'],a:1,x:'Mg melepas 2 elektron menjadi Mg²⁺, tiap Cl⁻ menerima 1, jadi perlu 2 Cl⁻.',h:'Muatan total senyawa harus nol.'},
+{t:'tf',q:'Tentukan Benar (B) atau Salah (S) tiap pernyataan. Semua benar = bonus 20 poin.',s:[
+['NaCl terbentuk karena atom Na menyerahkan elektron kepada atom Cl.',true,''],
+['Padatan senyawa ion dapat menghantarkan listrik dengan baik.',false,'Hanya lelehan atau larutannya yang menghantar, karena ion bebas bergerak.'],
+['Ion Ca²⁺ memiliki konfigurasi elektron yang sama dengan Ar.',true,''],
+['Senyawa dari Al dan O berumus AlO.',false,'Rumusnya Al₂O₃.'],
+['Senyawa ion umumnya bertitik leleh rendah.',false,'Titik leleh tinggi karena gaya tarik elektrostatis kuat.']],x:'',h:'Ingat: ion harus bebas bergerak agar menghantar listrik.'},
+{t:'drag',q:'Rakit kristal: seret tiap rumus ke pasangan ion yang membentuknya. Rumus yang keliru masuk ke kotak Rumus salah.',b:['Ca²⁺ + Cl⁻','Na⁺ + O²⁻','Al³⁺ + O²⁻','Mg²⁺ + N³⁻','Rumus salah'],i:[['CaCl₂',0],['Na₂O',1],['Al₂O₃',2],['Mg₃N₂',3],['CaCl',4],['AlO',4],['NaO',4]],x:'Silangkan muatan menjadi indeks, lalu sederhanakan.',h:'Silangkan angka muatan kation dan anion.'}]},
+{n:'Laboratorium Kovalen',ic:'🔬',bd:'Master Pasangan Elektron',mq:'Menggambarkan struktur Lewis molekul sederhana, menentukan jenis ikatan kovalen, dan membedakan senyawa ion dari kovalen.',q:[
+{t:'match',q:'Jodohkan molekul dengan cirinya.',l:['H₂','O₂','N₂','NH₃','CH₄'],o:['ikatan kovalen tunggal','ikatan kovalen rangkap dua','ikatan kovalen rangkap tiga','3 PEI dan 1 PEB pada atom pusat','4 PEI, tanpa PEB pada atom pusat'],a:[0,1,2,3,4],x:'N butuh 3 elektron lagi: N₂ rangkap tiga, NH₃ berikatan tiga kali dan sisa 1 PEB.',h:'Hitung elektron valensi tiap atom.'},
+{t:'order',q:'Susun langkah menggambar struktur Lewis H₂O dengan urutan yang benar (ketuk untuk memilih, ketuk lagi di urutan untuk membatalkan).',i:['Hitung total elektron valensi (2×1 + 6 = 8)','Tentukan atom pusat (O)','Hubungkan atom pusat dengan atom lain memakai pasangan elektron','Tempatkan elektron sisa sebagai PEB','Periksa duplet pada H dan oktet pada O'],p:[3,0,4,1,2],x:'Mulai dari menghitung elektron, akhiri dengan memeriksa duplet dan oktet.',h:'Hitung dulu, periksa terakhir.'},
+{t:'drag',q:'Gerbang Pemilah: seret tiap senyawa ke gerbang ION atau KOVALEN.',b:['ION','KOVALEN'],i:[['NaCl',0],['CO₂',1],['MgO',0],['CH₄',1],['KBr',0],['H₂O',1],['CaF₂',0],['NH₃',1]],x:'Logam + nonlogam: ion. Nonlogam + nonlogam: kovalen.',h:'Cek apakah ada unsur logam.'}]},
+{n:'Benteng Raja Ambigu',ic:'👑',bd:'Penakluk Ikatan',boss:1}];
+const J=[
+{t:'Jurus 1: Analisis Data Unsur',m:20,p:'Unsur A (nomor atom 19), B (16), C (6), D (9).<br>a. Tentukan elektron valensi dan kecenderungan tiap unsur.<br>b. Jenis ikatan dan rumus senyawa antara <b>A dan B</b>; jelaskan serah terima elektronnya.<br>c. Gambarkan struktur Lewis senyawa antara <b>C dan D</b> dan tentukan rumusnya.',k:'a. A: 1 (melepas 1 e⁻), B: 6 (menerima 2 e⁻), C: 4 (berbagi 4 e⁻), D: 7 (menerima atau berbagi 1 e⁻).<br>b. Ikatan ion, rumus A₂B (K₂S): 2 atom A masing-masing melepas 1 e⁻, B menerima 2 e⁻.<br>c. CF₄: C di tengah dengan 4 PEI, tiap F memiliki 3 PEB.'},
+{t:'Jurus 2: Prediksi dan Bandingkan',m:15,p:'Bandingkan <b>K₂S</b> dan <b>CF₄</b> dalam titik leleh dan daya hantar listrik, lengkap dengan alasan berdasarkan jenis ikatan dan gaya yang bekerja.',k:'K₂S: titik leleh tinggi; lelehan dan larutannya menghantar listrik karena ada ion bebas. CF₄: titik leleh sangat rendah dan tidak menghantar listrik karena molekul netral dengan gaya antarmolekul lemah.'},
+{t:'Jurus 3: Evaluasi Klaim',m:15,p:'Seorang siswa berkata: “Zat yang larutannya menghantarkan listrik pasti senyawa ion.” Setujukah kamu? Beri satu argumen dan satu contoh.',k:'Klaim tidak sepenuhnya benar. HCl adalah senyawa kovalen polar yang bereaksi dengan air dan menghasilkan ion, sehingga larutannya menghantar listrik. Daya hantar larutan saja tidak cukup; perlu data lain seperti titik leleh dan daya hantar padatan atau lelehannya.'}];
+const SUM='Ion: logam melepas elektron menjadi kation, nonlogam menerima elektron menjadi anion, lalu keduanya tarik-menarik secara elektrostatis. Kovalen: dua nonlogam berbagi pasangan elektron agar mencapai duplet atau oktet.';
+const $=s=>document.querySelector(s),S={};let cur={};
+function init(){Object.assign(S,{mode:'start',team:'',z:0,qi:0,en:3,hints:2,bank:0,zp:0,zb:0,keys:0,att:[0,0,0],done:[null,null,null,null],badges:[],hint:false,locked:false,res:null,bs:[0,0,0],sh:[0,0,0],notes:['','',''],boss:0})}
+function hud(){const p=S.bank+S.zp;$('#hud').innerHTML=S.mode==='start'?'':`<span class="chip">⭐ ${p}</span><span class="chip" title="Energi">${'❤️'.repeat(S.en)}${'🖤'.repeat(3-S.en)}</span><span class="chip">🗝️ ${S.keys}</span><span class="chip">💡 ${S.hints}</span>`;
+$('#map').innerHTML=Z.map((z,i)=>{const d=S.done[i],c=S.mode!=='start'&&S.z===i&&S.mode!=='final'?' cur':'',st=d==='pass'?' pass':d==='skip'?' skip':(i>S.z&&S.mode!=='final'||S.mode==='start')&&i>0?' lock':'';return `<div class="node${c}${st}"><span>${d==='pass'?'✅':z.ic}</span>${z.n}</div>`}).join('')}
+function shuf(n){return [...Array(n).keys()]}
+function newQ(q){cur={};if(q.t==='multi')cur.v=new Set();else if(q.t==='tf')cur.v=q.s.map(_=>null);else if(q.t==='drag'){cur.v=q.i.map(_=>-1);cur.sel=null}else if(q.t==='match')cur.v=q.l.map(_=>-1);else if(q.t==='order')cur.v=[];else cur.v=null;S.hint=false;S.locked=false;S.res=null}
+const tfLab=['B','S'];
+function body(q){let h='';
+if(q.t==='mc')h=q.o.map((o,i)=>`<button class="opt${cur.v===i?' on':''}" onclick="act('mc',${i})">${'ABCDE'[i]}. ${o}</button>`).join('');
+if(q.t==='multi')h=q.o.map((o,i)=>`<button class="opt${cur.v.has(i)?' on':''}" onclick="act('mu',${i})">${cur.v.has(i)?'☑':'☐'} ${o}</button>`).join('');
+if(q.t==='tf')h=q.s.map((s,i)=>`<div class="row"><span>${i+1}. ${s[0]}</span>${[true,false].map((b,k)=>`<button class="tfb${cur.v[i]===b?' on':''}" onclick="act('tf',${i},${b})" aria-label="${b?'Benar':'Salah'}">${tfLab[k]}</button>`).join('')}</div>`).join('');
+if(q.t==='drag'){h=`<div class="pool">${q.i.map((x,i)=>cur.v[i]<0?`<button class="it${cur.sel===i?' sel':''}" draggable="true" ondragstart="cur.sel=${i}" onclick="act('pick',${i})">${x[0]}</button>`:'').join('')||'<span class="small">Semua kartu sudah ditempatkan.</span>'}</div><div class="bks">${q.b.map((b,bi)=>`<div class="bkt" ondragover="event.preventDefault()" ondrop="act('put',${bi})" onclick="act('put',${bi})"><h3>${b}</h3><div class="bk">${q.i.map((x,i)=>cur.v[i]===bi?`<button class="it" onclick="event.stopPropagation();act('back',${i})">${x[0]}</button>`:'').join('')}</div></div>`).join('')}</div><p class="small">Ketuk kartu lalu ketuk kotak tujuan, atau seret kartu. Ketuk kartu di kotak untuk mengembalikannya.</p>`}
+if(q.t==='match')h=q.l.map((l,i)=>`<div class="row"><span><b>${l}</b></span><select onchange="act('mt',${i},this.value)" aria-label="Ciri ${l}"><option value="-1">Pilih ciri…</option>${q.o.map((o,k)=>`<option value="${k}"${cur.v[i]===k?' selected':''}>${o}</option>`).join('')}</select></div>`).join('');
+if(q.t==='order'){h=`<div class="pool">${q.p.map(i=>cur.v.includes(i)?'':`<button class="it" onclick="act('od',${i})">${q.i[i]}</button>`).join('')||'<span class="small">Semua langkah sudah dipilih.</span>'}</div><ol>${cur.v.map(i=>`<li><button class="it" onclick="act('ud',${i})">${q.i[i]}</button></li>`).join('')}</ol>`}
+return h}
+function keyText(q){if(q.t==='mc')return q.o[q.a];if(q.t==='multi')return q.a.map(i=>q.o[i]).join(', ');if(q.t==='tf')return q.s.map((x,i)=>`${i+1}. ${x[1]?'Benar':'Salah. '+x[2]}`).join('<br>');if(q.t==='drag')return q.b.map((n,b)=>`<b>${n}</b>: ${q.i.filter(x=>x[1]===b).map(x=>x[0]).join(', ')}`).join('<br>');if(q.t==='match')return q.l.map((x,i)=>`${x} → ${q.o[q.a[i]]}`).join('<br>');return q.i.map((x,k)=>`${k+1}. ${x}`).join('<br>')}
+function ready(q){const v=cur.v;if(q.t==='mc')return v!==null;if(q.t==='multi')return v.size>0;if(q.t==='tf')return v.every(x=>x!==null);if(q.t==='drag'||q.t==='match')return v.every(x=>x>=0);return v.length===q.i.length}
+function act(k,a,b){if(S.locked)return;const q=Z[S.z].q[S.qi];
+if(k==='mc')cur.v=a;if(k==='mu')cur.v.has(a)?cur.v.delete(a):cur.v.add(a);if(k==='tf')cur.v[a]=b;if(k==='mt')cur.v[a]=+b;
+if(k==='pick')cur.sel=cur.sel===a?null:a;if(k==='put'&&cur.sel!==null&&cur.sel!==undefined){cur.v[cur.sel]=a;cur.sel=null}if(k==='back')cur.v[a]=-1;
+if(k==='od')cur.v.push(a);if(k==='ud')cur.v=cur.v.filter(x=>x!==a);
+draw()}
+function check(){const q=Z[S.z].q[S.qi];let ok=false,part=false;
+if(q.t==='mc')ok=cur.v===q.a;
+if(q.t==='multi'){const v=[...cur.v],w=v.some(x=>!q.a.includes(x));ok=!w&&v.length===q.a.length;part=!w&&!ok}
+if(q.t==='tf')ok=q.s.every((x,i)=>cur.v[i]===x[1]);
+if(q.t==='drag')ok=q.i.every((x,i)=>cur.v[i]===x[1]);
+if(q.t==='match')ok=q.a.every((a,i)=>cur.v[i]===a);
+if(q.t==='order')ok=cur.v.every((x,k)=>x===k);
+let pts=ok?10:part?5:0,bonus=0;if(q.t==='tf'&&ok)bonus=20;
+S.zb+=pts;S.zp+=pts+bonus;if(!ok&&!part)S.en=Math.max(0,S.en-1);
+S.res={ok,part,pts,bonus};S.locked=true;draw()}
+function next(){const z=Z[S.z];if(S.en===0){S.mode='rest';return render()}
+if(S.qi<z.q.length-1){S.qi++;newQ(z.q[S.qi])}else S.mode='zres';render()}
+function useHint(){if(S.hints>0&&!S.hint){S.hints--;S.hint=true;draw();hud()}}
+function draw(){const z=Z[S.z],q=z.q[S.qi],r=S.res;
+const tl={mc:'Pilihan Ganda',multi:'Pilihan Ganda Kompleks',tf:'Benar / Salah',drag:'Drag and Drop',match:'Menjodohkan',order:'Mengurutkan'}[q.t];
+$('#stage').innerHTML=`<div class="card"><span class="tag">${tl}</span> <span class="small">Soal ${S.qi+1} dari ${z.q.length} · ${z.n}</span><div class="q">${q.q}</div><div class="${S.locked?'locked':''}">${body(q)}</div>${S.hint?`<div class="hint">💡 ${q.h}</div>`:''}
+${r?`<div class="fb ${r.ok?'':r.part?'mid':'no'}"><b>${r.ok?'Benar! +'+r.pts+' poin'+(r.bonus?' dan bonus +'+r.bonus:''):r.part?'Sebagian benar. +5 poin':'Belum tepat. Energi berkurang 1.'}</b>${r.ok&&q.t!=='tf'?'':`<div class="key"><b>Kunci:</b><br>${keyText(q)}</div>`}${q.x?`<p style="margin:.5em 0 0">${q.x}</p>`:''}</div>`:''}
+<div class="acts">${r?`<button class="btn" onclick="next()">${S.en===0?'Istirahat dan baca ringkasan':S.qi<z.q.length-1?'Soal berikutnya':'Lihat hasil zona'}</button>`:`<button class="btn" onclick="check()" ${ready(q)?'':'disabled'}>Periksa jawaban</button><button class="btn alt" onclick="useHint()" ${S.hints>0&&!S.hint?'':'disabled'}>💡 Kartu bantuan (${S.hints})</button>`}</div></div>`;hud()}
+function render(){hud();const st=$('#stage'),z=Z[S.z];
+if(S.mode==='start'){st.innerHTML=`<div class="card"><h1>Kepulauan Valensi memanggilmu</h1><p>Raja Elektron Ambigu mengacaukan peta ikatan: elektron berpindah sembarangan dan senyawa tidak lagi stabil. Jadilah <b>Ahli Ikatan (Bond Keeper)</b>, jelajahi tiga wilayah, kumpulkan lencana, lalu tantang sang Raja.</p><label for="tn"><b>Nama tim</b></label><input type="text" id="tn" placeholder="Contoh: Tim Oktet" maxlength="30"><div class="acts"><button class="btn" onclick="S.team=$('#tn').value.trim()||'Tim Tanpa Nama';S.mode='intro';render()">Mulai petualangan</button></div>
+<details><summary>Aturan main</summary><ul><li>Tiap tim punya 3 energi ❤️ dan 2 kartu bantuan 💡. Jawaban salah mengurangi 1 energi; jika habis, tim membaca ringkasan lalu lanjut dengan 1 energi.</li><li>Tiap soal benar bernilai 10 poin (Pilihan Ganda Kompleks sebagian benar: 5). Pernyataan Benar/Salah yang semuanya tepat memberi bonus 20.</li><li>Lulus zona jika skor soal minimal 70%, dan mendapat kunci 🗝️. Jika gagal, zona diulang; setelah dua percobaan tim boleh lanjut tanpa kunci.</li><li>Benteng Raja Ambigu terbuka dengan minimal 2 kunci. Boss dikalahkan dengan skor 35 dari 50.</li><li>Sisa energi di akhir permainan memberi +5 poin per nyawa.</li></ul></details></div>`;return}
+if(S.mode==='intro'){if(z.boss){if(S.keys<2){st.innerHTML=`<div class="card"><h2>Gerbang benteng masih terkunci</h2><p>Kamu membawa ${S.keys} kunci. Dibutuhkan minimal 2 kunci. Ulangi zona yang belum lulus untuk mendapatkannya.</p><div class="acts">${[0,1,2].filter(i=>S.done[i]!=='pass').map(i=>`<button class="btn" onclick="S.z=${i};S.att[${i}]++;redo()">Ulangi ${Z[i].n}</button>`).join('')}</div></div>`;return}
+S.mode='boss';return render()}
+st.innerHTML=`<div class="card"><h2>${z.ic} ${z.n}</h2><p><b>Misi utama:</b> ${z.mq}</p><p><b>Imbalan:</b> lencana 🛡️ ${z.bd}, 10 poin per soal benar, dan 1 kunci zona 🗝️ jika skor minimal 70%.</p><div class="acts"><button class="btn" onclick="S.mode='q';S.qi=0;S.zp=0;S.zb=0;newQ(Z[S.z].q[0]);draw()">Masuki zona</button></div></div>`;return}
+if(S.mode==='rest'){st.innerHTML=`<div class="card"><h2>😴 Tim beristirahat</h2><p>Energi habis. Baca ringkasan ini bersama tim sebelum lanjut:</p><div class="key">${SUM}</div><div class="acts"><button class="btn" onclick="S.en=1;S.mode='q';const z=Z[S.z];if(S.qi<z.q.length-1){S.qi++;newQ(z.q[S.qi]);draw()}else{S.mode='zres';render()}">Lanjut dengan 1 energi</button></div></div>`;return}
+if(S.mode==='zres'){const mx=z.q.length*10,ok=S.zb>=mx*.7;
+st.innerHTML=`<div class="card"><h2>${ok?'Zona selesai!':'Belum lulus zona'}</h2><div class="big">${S.zb}/${mx}</div><p>${ok?`Kamu mendapat lencana 🛡️ <b>${z.bd}</b> dan 1 kunci 🗝️.`:`Skor minimal ${Math.ceil(mx*.7)}. Pelajari lagi dan coba ulang.`}</p><div class="acts">${ok?`<button class="btn" onclick="pass('pass')">Lanjut ke zona berikutnya</button>`:`<button class="btn" onclick="S.att[S.z]++;redo()">Ulangi zona</button>${S.att[S.z]>=1?`<button class="btn alt" onclick="pass('skip')">Lanjut tanpa kunci</button>`:''}`}</div></div>`;return}
+if(S.mode==='boss'){st.innerHTML=`<div class="card"><h2>👑 Boss Battle: Raja Ambigu</h2><p>Diskusikan bersama tim, catat jawaban, lalu bandingkan dengan kunci dan beri skor sesuai rubrik. Skor minimal 35 dari 50 untuk menaklukkan Raja.</p></div>`+J.map((j,i)=>`<div class="card"><h3>${j.t}</h3><p>${j.p}</p><textarea oninput="S.notes[${i}]=this.value" placeholder="Jawaban tim…" aria-label="Jawaban ${j.t}">${S.notes[i]}</textarea><div class="acts"><button class="btn alt" onclick="S.sh[${i}]=!S.sh[${i}];render()">${S.sh[i]?'Sembunyikan kunci':'Tampilkan kunci'}</button><label>Skor (maks ${j.m}): <select onchange="S.bs[${i}]=+this.value">${Array.from({length:j.m+1},(_,n)=>`<option${S.bs[i]===n?' selected':''}>${n}</option>`).join('')}</select></label></div>${S.sh[i]?`<div class="key">${j.k}</div>`:''}</div>`).join('')+`<div class="acts"><button class="btn" onclick="S.boss=S.bs.reduce((a,b)=>a+b,0);S.bank+=S.boss;if(S.boss>=35)S.badges.push('Penakluk Ikatan');S.mode='final';render()">Serang! Hitung skor boss</button></div><p class="small">Rubrik: skor penuh bila jawaban benar, ada alasan, dan menyebut konsep serah terima versus pemakaian bersama elektron.</p>`;return}
+if(S.mode==='final'){const w=S.boss>=35,tot=S.bank+S.en*5;st.innerHTML=`<div class="card"><h2>${w?'👑 Raja Ambigu takluk!':'Raja Ambigu masih berkuasa'}</h2><p>${S.team} ${w?'resmi menjadi <b>Bond Keeper</b>.':'belum cukup kuat, tetapi sudah selangkah lagi. Pelajari kunci Boss dan coba kembali.'}</p><div class="big">${tot} poin</div><p class="small">Poin zona dan boss ${S.bank} + sisa energi ${S.en}×5 = ${S.en*5}</p><p>Lencana: ${S.badges.length?S.badges.map(b=>'🏅 '+b).join(' · '):'belum ada'}</p><div class="key"><b>Refleksi:</b> “Satu hal yang paling membedakan ikatan ion dan kovalen menurutku adalah …”</div><div class="acts"><button class="btn" onclick="init();render()">Main lagi</button></div></div>`}}
+function pass(t){S.done[S.z]=t;if(t==='pass'){S.keys++;S.badges.push(Z[S.z].bd)}S.bank+=S.zp;S.zp=0;S.z++;S.mode='intro';render()}
+function redo(){S.zp=0;S.zb=0;S.qi=0;S.mode='intro';render()}
+init();render();
+</script>
+</body>
+</html>
